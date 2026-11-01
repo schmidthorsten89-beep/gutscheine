@@ -95,6 +95,10 @@
         </select>
       </div>
       <div>
+        <label for="cls">Klasse</label>
+        <select id="cls"></select>
+      </div>
+      <div>
         <label for="style">Stil</label>
         <select id="style">
           <option value="normal">Klassisch</option>
@@ -183,6 +187,48 @@ const FUN = {
   f: ["Healzlater","Moolinda","Gnomeelia","Tankygirl","Shamwow","Druidella","Pallylicious","Hexenbiest","Kekskriegerin","Lootfee","Dotsemarie","Mjaulina","Feenstaub","Zauberbohne","Pewpewlina","Elfriede","Blinkerella","Kuhlerista","Prieschtel","Heilbutt"]
 };
 
+const CLASSES = {
+  warrior:  { name: "Krieger", color: "#C69B6D",
+    pre: ["Brak","Grom","Kor","Thar","Varg","Rag","Bor"], suf: ["blade","fist","guard","helm","storm","axe","steel"],
+    fun: { m: ["Kloppmeister","Schildbürger","Rageaholic","Axtvonhinten","Tankyoo"], f: ["Kloppliese","Schildkröte","Rageaholic","Axtrid","Tankygirl"] } },
+  paladin:  { name: "Paladin", color: "#F48CBA",
+    pre: ["Lum","Sol","Aur","Val","Cel","Ard"], suf: ["light","dawn","shield","hammer","valor","heart","oath"],
+    fun: { m: ["Pallyfries","Bubblehearth","Lichtmeister","Heilbutt","Hammerhart"], f: ["Pallylicious","Lichterkette","Heiligenbild","Heilbutt","Hammerhart"] } },
+  hunter:   { name: "Jäger", color: "#AAD372",
+    pre: ["Fen","Ash","Hawk","Wyl","Ran","Tal"], suf: ["arrow","shot","hawk","bow","track","fang","wind"],
+    fun: { m: ["Pewpewpeter","Pfeilkraft","Petsitter","Jagdwurst","Schussel"], f: ["Pewpewlina","Pfeilchen","Tierlieb","Jagdmaus","Bogenlampe"] } },
+  rogue:    { name: "Schurke", color: "#FFF468",
+    pre: ["Shiv","Sly","Nyx","Vex","Kas","Ves"], suf: ["shade","blade","knife","dusk","stab","mist","step"],
+    fun: { m: ["Schurkle","Stabbington","Sapmichnich","Taschendieb","Langfinger"], f: ["Schurkline","Stabbella","Langfinger","Diebische","Dolchmaus"] } },
+  priest:   { name: "Priester", color: "#E8E8E8",
+    pre: ["Ana","Sol","Ben","Cel","Ely","Seren"], suf: ["light","grace","hope","prayer","mercy","faith","sol"],
+    fun: { m: ["Prieschtel","Heilbutt","Bubbleboy","Gebetsmühle","Heilpraktik"], f: ["Prieschtelle","Heilfee","Heilsarmee","Gebetsmühle","Halleluja"] } },
+  shaman:   { name: "Schamane", color: "#2A8AE6",
+    pre: ["Tor","Kaz","Zul","Thra","Ruk","Ota"], suf: ["storm","totem","thunder","earth","tide","flame","wind"],
+    fun: { m: ["Shamwow","Totemfreund","Blitzbirne","Donnerwetter","Erdbebend"], f: ["Shamwow","Totemtante","Blitzlicht","Donnerlotte","Wellenreit"] } },
+  mage:     { name: "Magier", color: "#3FC7EB",
+    pre: ["Zan","Mer","Kel","Arc","Aeth","Ryn"], suf: ["frost","flame","spell","fire","rune","star","arcane"],
+    fun: { m: ["Frostbeule","Zauberbohne","Blinkfix","Arkanzlei","Schafsmacher"], f: ["Frostbeule","Zauberbohne","Blinkerella","Schafsmama","Funkenfee"] } },
+  warlock:  { name: "Hexenmeister", color: "#8788EE",
+    pre: ["Gul","Mal","Ner","Zar","Kil","Dra"], suf: ["fel","hex","curse","doom","soul","void","shade"],
+    fun: { m: ["Hexenschuß","Dotsefix","Seelenklau","Fearmichnich","Impressario"], f: ["Hexenbiest","Dotsemarie","Seelenfee","Fluchtwagen","Impressiv"] } },
+  monk:     { name: "Mönch", color: "#00FF98",
+    pre: ["Chi","Lin","Tao","Shen","Mu","Feng"], suf: ["fist","palm","zen","lotus","brew","kick","chi"],
+    fun: { m: ["Kungfutze","Teebeutel","Rollmops","Brewmaster","Bambusbär"], f: ["Kungfutzi","Teetante","Rollmöpschen","Bambusbiene","Zenzi"] } },
+  druid:    { name: "Druide", color: "#FF7C0A",
+    pre: ["Fan","Syl","Cen","Ther","Eld","Wyn"], suf: ["leaf","bark","moon","root","grove","claw","thorn"],
+    fun: { m: ["Druidfacts","Bärwolf","Mjausi","Mooflex","Baumschule"], f: ["Druidella","Mjaulina","Moolinda","Blumenkind","Baumkuchen"] } },
+  demonhunter: { name: "Dämonenjäger", color: "#A330C9",
+    pre: ["Ill","Kay","Var","Alt","Vel","Zor"], suf: ["fel","blind","glaive","scar","hunt","rage","soul"],
+    fun: { m: ["Dämonbrille","Blindfisch","Glefenfritz","Doppelsprung","Hornbrille"], f: ["Blindekuh","Glefenliese","Teufelsweib","Hörnchen","Flatterfee"] } },
+  deathknight: { name: "Todesritter", color: "#C41E3A",
+    pre: ["Thas","Mor","Dar","Grim","Mog","Kor"], suf: ["bane","frost","plague","grave","rune","death","doom"],
+    fun: { m: ["Pewpewdk","Grabesruhe","Frostbeule","Untotal","Seuchenvogel"], f: ["Todesliesl","Frostkrone","Grabeskälte","Untotalie","Seuchenfee"] } },
+  evoker:   { name: "Rufer", color: "#33937F",
+    pre: ["Ky","Dra","Ner","Sar","Vyr","Ysa"], suf: ["scale","wing","flame","ember","fang","breath","dream"],
+    fun: { m: ["Drachenfritz","Schuppig","Feuerspucker","Flügelchen","Echsenmax"], f: ["Drachenliebe","Schuppella","Flügelfee","Feuerlilli","Echsenlisa"] } }
+};
+
 const ACCENTS = { a:"á", e:"ë", i:"ï", o:"ô", u:"ú" };
 const $ = s => document.querySelector(s);
 const rnd = a => a[Math.floor(Math.random() * a.length)];
@@ -195,6 +241,10 @@ for (const [g, label] of Object.entries(groups)) {
   sel.append(og);
 }
 sel.append(new Option("Zufälliges Volk", "random"));
+
+const clsSel = $("#cls");
+clsSel.append(new Option("Beliebige Klasse", ""));
+for (const [k, c] of Object.entries(CLASSES)) clsSel.append(new Option(c.name, k));
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
 
@@ -212,20 +262,30 @@ function addAccent(n) {
   return n.slice(0, i) + ACCENTS[n[i]] + n.slice(i + 1);
 }
 
-function makeName(raceKey, g, style) {
+function makeName(raceKey, g, style, clsKey) {
   const parts = RACES[raceKey][g];
-  if (style === "fun") return rnd(FUN[g]);
+  const c = clsKey ? CLASSES[clsKey] : null;
+  const x = Math.random();
+  if (style === "fun") return c && x < .65 ? rnd(c.fun[g]) : rnd(FUN[g]);
   if (style === "dark") {
-    const a = Math.random() < .5 ? rnd(DARK.pre) : rnd(parts.pre);
-    return cap(a + rnd(DARK.suf));
+    const a = x < .4 ? rnd(DARK.pre) : (c && x < .7) ? rnd(c.pre) : rnd(parts.pre);
+    return cap(a + (c && Math.random() < .5 ? rnd(c.suf) : rnd(DARK.suf)));
   }
-  if (style === "short") return cap(rnd(parts.pre) + rnd(parts.suf).slice(0, 3));
+  if (style === "short") {
+    const a = c && x < .4 ? rnd(c.pre) : rnd(parts.pre);
+    return cap(a + rnd(parts.suf).slice(0, 3));
+  }
+  if (c) {
+    // Volk + Klasse mischen
+    if (x < .45) return cap(rnd(parts.pre) + rnd(c.suf));
+    if (x < .7) return cap(rnd(c.pre) + rnd(parts.mid) + rnd(parts.suf));
+  }
   return cap(rnd(parts.pre) + rnd(parts.mid) + rnd(parts.suf));
 }
 
 function generate(count = 18) {
   let race = sel.value;
-  const g = $("#gender").value, style = $("#style").value;
+  const g = $("#gender").value, style = $("#style").value, cls = clsSel.value;
   const start = $("#start").value.trim().toLowerCase();
   const accent = $("#accent").checked;
   const out = new Set();
@@ -233,7 +293,7 @@ function generate(count = 18) {
   while (out.size < count && tries < 6000) {
     tries++;
     const rk = race === "random" ? rnd(Object.keys(RACES)) : race;
-    let n = makeName(rk, g, style);
+    let n = makeName(rk, g, style, cls);
     if (start) {
       if (style === "fun") { if (!n.toLowerCase().startsWith(start)) continue; }
       else if (!n.toLowerCase().startsWith(start)) {
@@ -245,9 +305,12 @@ function generate(count = 18) {
     if (valid(n)) out.add(n);
   }
   const r = race === "random" ? null : RACES[race];
-  $("#resTitle").innerHTML = r
-    ? `Vorschläge – ${r.name} <span class="${r.fac === "H" ? "faction-h" : r.fac === "A" ? "faction-a" : ""}">(${groups[r.fac]})</span>`
-    : "Vorschläge – Zufälliges Volk";
+  const c = cls ? CLASSES[cls] : null;
+  $("#resTitle").innerHTML = (r
+    ? `Vorschläge – ${r.name}`
+    : "Vorschläge – Zufälliges Volk")
+    + (c ? ` <span style="color:${c.color}">${c.name}</span>` : "")
+    + (r ? ` <span class="${r.fac === "H" ? "faction-h" : r.fac === "A" ? "faction-a" : ""}">(${groups[r.fac]})</span>` : "");
   render($("#results"), [...out], "Keine passenden Namen gefunden – probiere einen anderen Anfang.");
 }
 
@@ -296,7 +359,7 @@ function toast(msg) {
 
 $("#gen").onclick = () => generate();
 $("#clearFav").onclick = () => { if (confirm("Alle Favoriten löschen?")) { favs = []; saveFavs(); renderFavs(); } };
-["#race", "#gender", "#style"].forEach(s => $(s).addEventListener("change", () => generate()));
+["#race", "#gender", "#cls", "#style"].forEach(s => $(s).addEventListener("change", () => generate()));
 $("#start").addEventListener("keydown", e => { if (e.key === "Enter") generate(); });
 
 renderFavs();
