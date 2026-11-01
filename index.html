@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Gutscheine</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="kopf">
+    <h1>Gutscheine</h1>
+    <button id="neu-laden" class="kopf-knopf" type="button" aria-label="Neu laden">↻</button>
+    <button id="einstellungen" class="kopf-knopf" type="button" aria-label="Einstellungen">⚙</button>
+  </header>
+
+  <p id="status" class="status" role="status" hidden></p>
+
+  <main>
+    <div class="tabs" role="tablist">
+      <button id="tab-aktiv" class="tab aktiv" type="button" role="tab" data-tab="aktiv">Aktiv</button>
+      <button id="tab-eingeloest" class="tab" type="button" role="tab" data-tab="eingeloest">Eingelöst</button>
+    </div>
+
+    <section class="filter" aria-label="Filter">
+      <input id="suche" type="search" placeholder="Suchen …" aria-label="Suchen">
+      <label>Geschäft <select id="filter-geschaeft"></select></label>
+      <label>Art <select id="filter-art"></select></label>
+      <label>Gruppieren
+        <select id="gruppierung">
+          <option value="">Keine</option>
+          <option value="geschaeft">Nach Geschäft</option>
+          <option value="art">Nach Art</option>
+        </select>
+      </label>
+    </section>
+
+    <p id="summe" class="summe"></p>
+    <div id="liste"></div>
+  </main>
+
+  <button id="hinzufuegen" class="fab" type="button" aria-label="Gutschein hinzufügen">+</button>
+
+  <dialog id="dlg-gutschein">
+    <form id="form-gutschein" novalidate>
+      <h2 id="form-titel">Neuer Gutschein</h2>
+      <label>Geschäft * <input name="geschaeft" list="vorschlag-geschaeft" maxlength="500" required autocomplete="off"></label>
+      <datalist id="vorschlag-geschaeft"></datalist>
+      <label>Art * <input name="art" list="vorschlag-art" maxlength="500" required autocomplete="off"></label>
+      <datalist id="vorschlag-art"></datalist>
+      <div class="zeile">
+        <label>Wert (€) <input name="wert" inputmode="decimal" autocomplete="off"></label>
+        <label>Restguthaben (€) <input name="restwert" inputmode="decimal" autocomplete="off"></label>
+      </div>
+      <label>Ablaufdatum <input name="ablauf" type="date"></label>
+      <label>Notiz <textarea name="notiz" rows="2" maxlength="500"></textarea></label>
+      <label id="feld-eingeloest" class="haken"><input name="eingeloest" type="checkbox"> Eingelöst</label>
+      <p class="fehler" hidden></p>
+      <div class="knoepfe">
+        <button id="loeschen" class="gefahr" type="button">Löschen</button>
+        <span class="platz"></span>
+        <button type="button" data-schliessen>Abbrechen</button>
+        <button class="haupt schreibend" type="submit">Speichern</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-einloesen">
+    <form id="form-einloesen" novalidate>
+      <h2>Einlösen</h2>
+      <p id="einloesen-info"></p>
+      <label id="feld-betrag">Betrag (€) <input name="betrag" inputmode="decimal" autocomplete="off"></label>
+      <p class="fehler" hidden></p>
+      <div class="knoepfe">
+        <button type="button" data-schliessen>Abbrechen</button>
+        <span class="platz"></span>
+        <button id="ganz-einloesen" class="schreibend" type="button">Ganz einlösen</button>
+        <button id="betrag-abziehen" class="haupt schreibend" type="submit">Abziehen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-loeschen">
+    <form id="form-loeschen">
+      <h2>Gutschein löschen?</h2>
+      <p id="loeschen-info"></p>
+      <p class="fehler" hidden></p>
+      <div class="knoepfe">
+        <span class="platz"></span>
+        <button type="button" data-schliessen>Abbrechen</button>
+        <button class="gefahr-haupt schreibend" type="submit">Löschen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-einstellungen">
+    <form id="form-einstellungen" novalidate>
+      <h2>Einstellungen</h2>
+      <label>Apps-Script-URL <input name="url" type="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec"></label>
+      <label>Token <input name="token" type="password" autocomplete="off"></label>
+      <p class="fehler" hidden></p>
+      <div class="knoepfe">
+        <span class="platz"></span>
+        <button type="button" data-schliessen>Abbrechen</button>
+        <button class="haupt" type="submit">Speichern</button>
+      </div>
+      <hr>
+      <h3>Mit zweiter Person teilen</h3>
+      <p class="hinweis">Dieser Link gibt vollen Zugriff auf alle Gutscheine. Schicke ihn nur privat.</p>
+      <button id="link-kopieren" type="button">Einrichtungslink kopieren</button>
+      <input id="link-ausgabe" readonly hidden aria-label="Einrichtungslink">
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
